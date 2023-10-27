@@ -77,8 +77,8 @@ class DBStorage:
 
     def get(self, cls, id):
         """A method to retrieve one object"""
-        storage = self.all(cls)
-        for key, value in storage.items():
+        obj = self.all(cls)
+        for key, value in obj.items():
             if key == "{}.{}".format(cls.__name__, id):
                 return value
 
