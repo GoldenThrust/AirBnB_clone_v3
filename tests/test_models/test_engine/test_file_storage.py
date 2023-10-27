@@ -3,6 +3,7 @@
 Contains the TestFileStorageDocs classes
 """
 
+from models import storage
 from datetime import datetime
 import inspect
 import models
@@ -25,6 +26,18 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 
 class TestFileStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of FileStorage class"""
+    def tearDown(self):
+        """ remove file json if exist """
+        try:
+            os.remove("file.json")
+        except IOError:
+            pass
+
+    def setUp(self):
+        """ setup file.json """
+        storage.reload()
+        storage.save()
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
@@ -66,6 +79,16 @@ test_file_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+    def test_storage_get_func(self):
+        """Test if storage count work"""
+        first_state_id = list(storage.all(State).values())[0].id
+        self.assertIsNotNone(storage.get(State, first_state_id))
+
+    def test_storage_count_func(self):
+        """Test if storage count work"""
+        self.assertEqual(storage.count(), 7)
+        self.assertEqual(storage.count(State), 1)
 
 
 class TestFileStorage(unittest.TestCase):

@@ -3,6 +3,7 @@
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
 
+from models import storage
 from datetime import datetime
 import inspect
 import models
