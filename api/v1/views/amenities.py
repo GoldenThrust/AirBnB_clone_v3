@@ -28,7 +28,7 @@ def get_amenitys(amenity_id):
     """ handle GET request """
     if amenity_id is None:
         amenities = [amenity.to_dict()
-                     for amenity in storage.all("amenity").values()]
+                     for amenity in storage.all("Amenity").values()]
         return jsonify(amenities)
     else:
         amenity = storage.get(Amenity, amenity_id)
