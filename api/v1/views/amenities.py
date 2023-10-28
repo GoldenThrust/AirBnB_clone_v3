@@ -9,11 +9,11 @@ import uuid
 
 
 @app_views.route('/amenities/', methods=['GET', 'POST'])
-@app_views.route('amenitys/<amenity_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('amenities/<amenity_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_amenitys_routes(amenity_id=None):
     """ Handle amenity RESTFul API actions """
     if request.method == 'GET':
-        return get_amenitys(amenity_id)
+        return get_amenities(amenity_id)
     elif request.method == 'POST':
         return create_amenity()
     elif request.method == 'PUT':
@@ -24,7 +24,7 @@ def handle_amenitys_routes(amenity_id=None):
         abort(405)
 
 
-def get_amenitys(amenity_id):
+def get_amenities(amenity_id):
     """ handle GET request """
     if amenity_id is None:
         amenities = [amenity.to_dict()
