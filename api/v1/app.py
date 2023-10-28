@@ -31,5 +31,4 @@ if __name__ == "__main__":
     if port is None:
         port = '5000'
 
-    app.run(debug=True)
     app.run(host=host, port=port, threaded=True)
