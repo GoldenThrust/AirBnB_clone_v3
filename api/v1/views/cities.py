@@ -9,7 +9,7 @@ import uuid
 
 
 @app_views.route('/cities/', methods=['GET', 'POST'])
-@app_views.route('cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_cities_routes(city_id=None):
     """ Handle city RESTFul API actions """
     if request.method == 'GET':
