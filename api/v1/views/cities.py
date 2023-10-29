@@ -11,7 +11,8 @@ import uuid
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'])
 @app_views.route('/states/<state_id>/cities/', methods=['GET', 'POST'])
-def handle_cities_in_city_routes(state_id):
+def handle_cities_in_state_routes(state_id):
+    """ Handle cities in state routes """
     if request.method == 'GET':
         return get_cities_in_state(state_id)
     elif request.method == 'POST':

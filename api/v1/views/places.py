@@ -13,6 +13,7 @@ import uuid
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 @app_views.route('/cities/<city_id>/places/', methods=['GET', 'POST'])
 def handle_places_in_city_routes(city_id):
+    """ Handle places in city routes """
     if request.method == 'GET':
         return get_places_in_city(city_id)
     elif request.method == 'POST':
