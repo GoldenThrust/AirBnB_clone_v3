@@ -79,11 +79,11 @@ def update_user(user_id):
 
 def delete_user(user_id):
     """ handle DELETE request"""
-    if user_id is None:
-        print(user_id, "is None")
-        abort(404)
+    user = storage.get(User, user_id)
 
     if user is None:
         abort(404)
 
+    storage.delete(user)
+    storage.save()
     return jsonify({}), 200
