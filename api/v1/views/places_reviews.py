@@ -38,8 +38,8 @@ def get_reviews_in_place(place_id):
         abort(404)
 
     reviews = [review.to_dict() for review in
-              storage.all("Review").values()
-              if place_id == review.place_id]
+               storage.all("Review").values()
+               if place_id == review.place_id]
 
     return jsonify(reviews)
 
@@ -113,4 +113,3 @@ def delete_review(review_id):
     storage.delete(review)
     storage.save()
     return jsonify({}), 200
-
