@@ -11,8 +11,8 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {"amenities": Amenity, "cities": City,
+           "places": Place, "reviews": Review, "states": State, "users": User}
 
 
 @app_views.route('/status')
@@ -26,8 +26,9 @@ def status():
 
 
 @app_views.route('/stats')
+@app_views.route('/stats/')
 def stats():
-    """ return stat """
+    """ return number of each objects"""
     stats = {}
 
     for val in classes:

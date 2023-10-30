@@ -8,8 +8,9 @@ from models.state import State
 # import uuid
 
 
+@app_views.route('/states', methods=['GET', 'POST'])
 @app_views.route('/states/', methods=['GET', 'POST'])
-@app_views.route('states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_states_routes(state_id=None):
     """ Handle state RESTFul API actions """
     if request.method == 'GET':

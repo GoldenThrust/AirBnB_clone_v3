@@ -4,19 +4,27 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
 from models.city import City
+from models.state import State
 from datetime import datetime
 import uuid
 
 
-@app_views.route('/cities/', methods=['GET', 'POST'])
-@app_views.route('cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
+@app_views.route('/states/<state_id>/cities/', methods=['GET', 'POST'])
+def handle_cities_in_state_routes(state_id):
+    """ Handle cities in state routes """
+    if request.method == 'GET':
+        return get_cities_in_state(state_id)
+    elif request.method == 'POST':
+        return create_city(state_id)
+
+
+@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_cities_routes(city_id=None):
     """ Handle city RESTFul API actions """
     if request.method == 'GET':
-        return get_cities(city_id)
-    elif request.method == 'POST':
-        return create_city()
-    elif request.method == 'PUT':
+        return get_city(city_id)
+    if request.method == 'PUT':
         return update_city(city_id)
     elif request.method == 'DELETE':
         return delete_city(city_id)
@@ -24,30 +32,43 @@ def handle_cities_routes(city_id=None):
         abort(405)
 
 
-def get_cities(city_id):
+def get_cities_in_state(state_id):
     """ handle GET request """
-    if city_id is None:
-        cities = [city.to_dict() for city in storage.all("City").values()]
-        return jsonify(cities)
-    else:
-        city = storage.get(City, city_id)
+    city = storage.get(State, state_id)
+    if city is None:
+        abort(404)
 
-        if city is None:
-            abort(404)
+    cities = [city.to_dict() for city in
+              storage.all("City").values()
+              if state_id == city.state_id]
+
+    return jsonify(cities)
+
+
+def get_city(city_id):
+    """ handle GET request """
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
 
     return jsonify(city.to_dict())
 
 
-def create_city():
+def create_city(state_id):
     """ handle POST request"""
-    data = request.get_json()
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
 
+    data = request.get_json()
     if data is None:
         abort(400, "Not a JSON")
+
     if 'name' not in data:
-        abort(400, 'Missing name')
+        abort(400, "Missing name")
 
     city = City(**data)
+    city.state_id = state_id
     city.save()
     return jsonify(city.to_dict()), 201
 
@@ -65,7 +86,8 @@ def update_city(city_id):
         abort(400, "Not a JSON")
 
     for key, value in data.items():
-        invalid_keys = ["id", "created_at", "updated_at"]
+        invalid_keys = ["id",
+                        "state_id", "created_at", "updated_at"]
 
         if key not in invalid_keys:
             setattr(city, key, value)
