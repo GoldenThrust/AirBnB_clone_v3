@@ -28,7 +28,7 @@ def status():
 @app_views.route('/stats')
 @app_views.route('/stats/')
 def stats():
-    """ return stat """
+    """ return number of each objects"""
     stats = {}
 
     for val in classes:

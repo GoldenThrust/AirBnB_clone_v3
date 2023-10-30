@@ -8,7 +8,7 @@ from datetime import datetime
 import uuid
 
 
-@app_views.route('/users', methods=['GET'])
+@app_views.route('/users', methods=['GET', 'POST'])
 @app_views.route('/users/', methods=['GET', 'POST'])
 @app_views.route('/users/<user_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_users_routes(user_id=None):
