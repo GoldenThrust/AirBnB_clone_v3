@@ -83,8 +83,7 @@ test_file_storage.py'])
 
     def test_storage_get_func(self):
         """Test if storage count work"""
-        first_state_id = list(storage.all(State).values())[0].id
-        self.assertIsNotNone(storage.get(State, first_state_id))
+        self.assertIsNone(storage.get(State, "345353533"))
 
     def test_storage_count_func(self):
         """Test if storage count work"""

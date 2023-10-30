@@ -68,3 +68,12 @@ test_db_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+    def test_storage_get_func(self):
+        """Test if storage count work"""
+        self.assertIsNone(storage.get(State, "345353533"))
+
+    def test_storage_count_func(self):
+        """Test if storage count work"""
+        self.assertIsNotNone(storage.count())
+        self.assertIsNotNone(storage.count(State))
