@@ -7,6 +7,7 @@ from models.state import State
 from datetime import datetime
 import uuid
 
+
 @app_views.route('/states', methods=['GET', 'POST'])
 @app_views.route('/states/', methods=['GET', 'POST'])
 @app_views.route('states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
