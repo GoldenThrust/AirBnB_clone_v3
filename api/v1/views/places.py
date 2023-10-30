@@ -10,8 +10,7 @@ from datetime import datetime
 import uuid
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'])
-@app_views.route('/cities/<city_id>/places/', methods=['GET', 'POST'])
+@app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'], strict_slashes=False)
 def handle_places_in_city_routes(city_id):
     """ Handle places in city routes """
     if request.method == 'GET':
