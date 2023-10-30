@@ -9,7 +9,7 @@ from datetime import datetime
 import uuid
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'])
+@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 @app_views.route('/states/<state_id>/cities/', methods=['GET', 'POST'])
 def handle_cities_in_state_routes(state_id):
     """ Handle cities in state routes """
@@ -56,8 +56,8 @@ def get_city(city_id):
 
 def create_city(state_id):
     """ handle POST request"""
-    city = storage.get(City, state_id)
-    if city is None:
+    state = storage.get(State, state_id)
+    if state is None:
         abort(404)
 
     data = request.get_json()
@@ -86,7 +86,7 @@ def update_city(city_id):
         abort(400, "Not a JSON")
 
     for key, value in data.items():
-        invalid_keys = ["id", "user_id",
+        invalid_keys = ["id",
                         "state_id", "created_at", "updated_at"]
 
         if key not in invalid_keys:

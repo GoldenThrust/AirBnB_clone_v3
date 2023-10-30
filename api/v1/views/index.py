@@ -16,6 +16,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 @app_views.route('/status')
+@app_views.route('/status/')
 def status():
     """ returns status """
     status = {
@@ -24,8 +25,8 @@ def status():
 
     return jsonify(status)
 
-
 @app_views.route('/stats')
+@app_views.route('/stats/')
 def stats():
     """ return stat """
     stats = {}
