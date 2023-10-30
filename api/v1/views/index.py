@@ -11,10 +11,6 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-classes = {"amenities": Amenity, "cities": City,
-           "places": Place, "reviews": Review, "states": State, "users": User}
-
-
 @app_views.route('/status')
 def status():
     """ returns status """
@@ -25,13 +21,16 @@ def status():
     return jsonify(status)
 
 
-@app_views.route('/stats')
-@app_views.route('/stats/')
-def stats():
-    """ return stat """
-    stats = {}
-
-    for val in classes:
-        stats[val] = storage.count(val)
-
-    return jsonify(stats)
+def count():
+    """ returns number of each objects by type """
+    total = {}
+    classes = {"Amenity": "amenities",
+               "City": "cities",
+               "Place": "places",
+               "Review": "reviews",
+               "State": "states",
+               "User": "users"}
+    for cls in classes:
+        count = storage.count(cls)
+        total[classes.get(cls)] = count
+    return jsonify(total)
