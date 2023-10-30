@@ -4,8 +4,8 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
 from models.state import State
-# from datetime import datetime
-# import uuid
+from datetime import datetime
+import uuid
 
 
 @app_views.route('/states', methods=['GET', 'POST'])
@@ -23,6 +23,7 @@ def handle_states_routes(state_id=None):
         return delete_state(state_id)
     else:
         abort(405)
+
 
 def get_states(state_id):
     """ handle GET request """
