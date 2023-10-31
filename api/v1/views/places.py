@@ -22,7 +22,7 @@ def handle_places_in_city_routes(city_id):
 
 @app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
-def handle_places_routes(place_id=None):
+def handle_places_routes(place_id):
     """ Handle place RESTFul API actions """
     if request.method == 'GET':
         return get_place(place_id)

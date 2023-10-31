@@ -20,7 +20,7 @@ def handle_reviews_in_places_routes(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
-def handle_reviews_routes(review_id=None):
+def handle_reviews_routes(review_id):
     """ Handle review RESTFul API actions """
     if request.method == 'GET':
         return get_review(review_id)
