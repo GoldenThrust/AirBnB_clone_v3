@@ -20,7 +20,8 @@ def handle_places_in_city_routes(city_id):
         return create_place(city_id)
 
 
-@app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def handle_places_routes(place_id=None):
     """ Handle place RESTFul API actions """
     if request.method == 'GET':
@@ -113,3 +114,16 @@ def delete_place(place_id):
     storage.delete(place)
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route('/places_search', methods=['POST'],
+                 strict_slashes=False)
+def search_places():
+    data = request.get_json()
+    if data is None:
+        abort(400, "Not a JSON")
+
+    places = [place.to_dict() for place in storage.all(Place).values()]
+
+    if not data:
+        return places
