@@ -30,7 +30,7 @@ def handle_amenities_in_places_routes(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['POST', 'DELETE'],
                  strict_slashes=False)
-def handle_places_routes(place_id, amenity_id):
+def handle_places_amenity_routes(place_id, amenity_id):
     """ Handle place RESTFul API actions """
     if request.method == 'POST':
         return create_place(place_id, amenity_id)
