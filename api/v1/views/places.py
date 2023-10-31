@@ -5,9 +5,9 @@ from flask import jsonify, abort, request
 from models import storage
 from models.place import Place
 from models.city import City
+from models.state import State
+from models.amenity import Amenity
 from models.user import User
-from datetime import datetime
-import uuid
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'],
@@ -120,10 +120,38 @@ def delete_place(place_id):
                  strict_slashes=False)
 def search_places():
     data = request.get_json()
-    if data is None:
+
+    if not request.json:
         abort(400, "Not a JSON")
 
     places = [place.to_dict() for place in storage.all(Place).values()]
 
-    if not data:
-        return places
+    if not data or (not data.get("states")
+                    and not data.get("cities") and not data.get("amenities")):
+        return jsonify(places)
+
+    filtered_places = set()
+
+    if "states" in data:
+        states = [storage.get(State, state_id)
+                  for state_id in data.get('states')]
+
+        for state in states:
+            for city in state.cities:
+                filtered_places.update(city.places)
+
+    if "cities" in data:
+        cities = [storage.get(City, city_id) for city_id in data.get('cities')]
+
+        for city in cities:
+            filtered_places.update(city.places)
+
+    if "amenities" in data:
+        amenities = [storage.get(Amenity, amenity_id)
+                     for amenity_id in data.get('amenities')]
+
+        for amenity in amenities:
+            filtered_places.update(amenity.place_amenities)
+
+    obj = [place.to_dict() for place in filtered_places]
+    return jsonify(obj)
